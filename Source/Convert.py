@@ -25,6 +25,7 @@ class Convert:
         self.__MergeTagsSeparatedForNewLine()
         self.__ExtractMetadataOfHead()
         self.__CreateListOfTranslates()
+        self.__FormatTagsInTranslates()
 
     def __ExtractCommentOfHead(self):
         allCommentHeadHasBeenExtracted = False
@@ -88,6 +89,60 @@ class Convert:
                 value += line
                 self.__translates.append(Dictionary(key, value))
                 key, value = str(), str()
+
+    def __FormatTagsInTranslates(self):
+        for translate in self.__translates:
+            keyTag = self.__ExtractNameOfTag(translate.key)
+            translate.key = keyTag
+
+    def __ExtractNameOfTag(self, _string : str) -> str:
+        if self.__HaveXWords(5, _string):
+            listOfWords = self.__ExtractXWordMoreGreater(5, _string)
+        elif self.__HaveXWords(4, _string):
+            listOfWords = self.__ExtractXWordMoreGreater(4, _string)
+        elif self.__HaveXWords(3, _string):
+            listOfWords = self.__ExtractXWordMoreGreater(3, _string)
+        elif self.__HaveXWords(2, _string):
+            listOfWords = self.__ExtractXWordMoreGreater(2, _string)
+        else:
+            pass
+
+    @staticmethod
+    def __CapitalizeWords(_words : list):
+        pass
+
+    @staticmethod
+    def __MergeWords(_words : list):
+        pass
+
+    @staticmethod
+    def __HaveXWords( _x : int, _string : str) -> bool:
+        return _string.count(' ') >= _x
+
+    @staticmethod
+    def __ExtractXWordMoreGreater(_x : int, _string : str) -> list:
+        listOfWordsGreat = list()
+        listOfWords = _string.split(' ')
+
+        for i in range(_x):
+            # Set that the word more great is the first of list
+            lengthOfWordMoreGreat = len(listOfWords[0])
+            index = 1
+            indexWordMoreGreater = 1
+            while index < len(listOfWords):
+                if len(listOfWords[index]) > lengthOfWordMoreGreat:
+                    lengthOfWordMoreGreat = len(listOfWords[index])
+                    indexWordMoreGreater = index
+                    index += 1
+                else: index += 1
+
+            # Added the word to the list of words greater
+            listOfWordsGreat.append(listOfWords[indexWordMoreGreater])
+            # Deleted the word of the list for avoid counter again
+            listOfWords.pop(indexWordMoreGreater)
+
+        return listOfWordsGreat
+
 
     @staticmethod
     def __DeletedCharactersInString(stringBuffer : str, character : str) -> str:
