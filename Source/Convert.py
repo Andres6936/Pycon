@@ -96,6 +96,7 @@ class Convert:
             translate.key = keyTag
 
     def __ExtractNameOfTag(self, _string : str) -> str:
+        listOfWords = list()
         if self.__HaveXWords(5, _string):
             listOfWords = self.__ExtractXWordMoreGreater(5, _string)
         elif self.__HaveXWords(4, _string):
@@ -104,15 +105,22 @@ class Convert:
             listOfWords = self.__ExtractXWordMoreGreater(3, _string)
         elif self.__HaveXWords(2, _string):
             listOfWords = self.__ExtractXWordMoreGreater(2, _string)
-        else:
-            pass
+        # Only exist an word in this string
+        else: listOfWords.append(_string)
+
+        self.__CapitalizeWords(listOfWords)
+        nameOfTag = self.__MergeWords(listOfWords)
+        return nameOfTag
 
     @staticmethod
-    def __CapitalizeWords(_words : list):
-        pass
+    def __CapitalizeWords(_words : list) -> None:
+        index = 0
+        while index < len(_words):
+            _words[index] = _words[index].capitalize()
+            index += 1
 
     @staticmethod
-    def __MergeWords(_words : list):
+    def __MergeWords(_words : list) -> str:
         pass
 
     @staticmethod
