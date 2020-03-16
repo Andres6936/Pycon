@@ -151,7 +151,7 @@ class Convert:
 
     @staticmethod
     def __HaveXWords( _x : int, _string : str) -> bool:
-        return _string.count(' ') >= _x
+        return _string.count(' ') >= _x - 1
 
     @staticmethod
     def __ExtractXWordMoreGreater(_x : int, _string : str) -> list:
@@ -161,8 +161,9 @@ class Convert:
         for i in range(_x):
             # Set that the word more great is the first of list
             lengthOfWordMoreGreat = len(listOfWords[0])
+            indexWordMoreGreater = 0
+
             index = 1
-            indexWordMoreGreater = 1
             while index < len(listOfWords):
                 if len(listOfWords[index]) > lengthOfWordMoreGreat:
                     lengthOfWordMoreGreat = len(listOfWords[index])
