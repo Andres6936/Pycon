@@ -9,7 +9,9 @@ class Convert:
     def __init__(self):
         self.__buffer = list()
         self.__tags = list()
+        self.__translates = list()
         self.__commentHead = str()
+        self.__metadataHead = str()
 
     def ConvertToXML(self, filename : Path):
         with filename.open() as file:
@@ -21,7 +23,8 @@ class Convert:
         self.__DeletedCommentsInBuffer()
         self.__DeletedCharactersUnusedInBuffer()
         self.__MergeTagsSeparatedForNewLine()
-        self.__CreateListOfTagsAndTranslates()
+        self.__ExtractMetadataOfHead()
+        self.__CreateListOfTranslates()
 
     def __ExtractCommentOfHead(self):
         allCommentHeadHasBeenExtracted = False
@@ -30,6 +33,11 @@ class Convert:
                 self.__commentHead += self.__buffer[0]
                 self.__buffer.pop(0)
             else: allCommentHeadHasBeenExtracted = True
+
+    def __ExtractMetadataOfHead(self):
+        # Deleted the first msgid without use
+        self.__buffer.pop(0)
+        self.__metadataHead = self.__buffer.pop(0)
 
     def __DeletedEmptyLinesInBuffer(self):
         index = 0
@@ -71,11 +79,15 @@ class Convert:
                         break
             index += 1
 
-    def __CreateListOfTagsAndTranslates(self):
+    def __CreateListOfTranslates(self):
         key , value = str(), str()
         for line in self.__buffer:
             if line.find('msgid ', 0, len('msgid ')) != -1:
                 key += line
+            elif line.find('msgstr ', 0, len('msgstr ')) != -1:
+                value += line
+                self.__translates.append(Dictionary(key, value))
+                key, value = str(), str()
 
     @staticmethod
     def __DeletedCharactersInString(stringBuffer : str, character : str) -> str:
