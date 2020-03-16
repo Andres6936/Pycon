@@ -7,10 +7,12 @@ class Dictionary:
 
 class Convert:
     def __init__(self):
-        self.__buffer = list()
         self.__tags = list()
+        self.__buffer = list()
         self.__translates = list()
+        self.__license = str()
         self.__commentHead = str()
+        self.__translators = str()
         self.__metadataHead = str()
 
     def ConvertToXML(self, filename : Path):
@@ -24,6 +26,8 @@ class Convert:
         self.__DeletedCharactersUnusedInBuffer()
         self.__MergeTagsSeparatedForNewLine()
         self.__ExtractMetadataOfHead()
+        self.__ExtractLicense()
+        self.__ExtractTranslators()
         self.__CreateListOfTranslates()
         self.__FormatTagsInTranslates()
 
@@ -39,6 +43,16 @@ class Convert:
         # Deleted the first msgid without use
         self.__buffer.pop(0)
         self.__metadataHead = self.__buffer.pop(0)
+
+    def __ExtractLicense(self):
+        # The license is divided in three parts
+        for i in range(3):
+            self.__buffer.pop(0)
+            self.__license += self.__buffer.pop(0)
+
+    def __ExtractTranslators(self):
+        self.__buffer.pop(0)
+        self.__translators += self.__buffer.pop(0)
 
     def __DeletedEmptyLinesInBuffer(self):
         index = 0
@@ -58,6 +72,9 @@ class Convert:
     def __DeletedCharactersUnusedInBuffer(self):
         for i in range(len(self.__buffer)):
             self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '"')
+            self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '.')
+            self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], ';')
+            self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '\\n')
 
     def __MergeTagsSeparatedForNewLine(self):
         index = 0
