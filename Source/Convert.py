@@ -24,6 +24,7 @@ class Convert:
         self.__DeletedEmptyLinesInBuffer()
         self.__DeletedCommentsInBuffer()
         self.__DeletedCharactersUnusedInBuffer()
+        self.__DeletedEmptyLinesInBuffer()
         self.__MergeTagsSeparatedForNewLine()
         self.__ExtractMetadataOfHead()
         self.__ExtractLicense()
@@ -72,8 +73,12 @@ class Convert:
     def __DeletedCharactersUnusedInBuffer(self):
         for i in range(len(self.__buffer)):
             self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '"')
+            self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], "'")
             self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '.')
             self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], ';')
+            self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '?')
+            self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '_')
+            self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '--')
             self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '\\n')
 
     def __MergeTagsSeparatedForNewLine(self):
@@ -114,9 +119,8 @@ class Convert:
 
     def __ExtractNameOfTag(self, _string : str) -> str:
         listOfWords = list()
-        if self.__HaveXWords(5, _string):
-            listOfWords = self.__ExtractXWordMoreGreater(5, _string)
-        elif self.__HaveXWords(4, _string):
+
+        if self.__HaveXWords(4, _string):
             listOfWords = self.__ExtractXWordMoreGreater(4, _string)
         elif self.__HaveXWords(3, _string):
             listOfWords = self.__ExtractXWordMoreGreater(3, _string)
