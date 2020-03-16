@@ -121,7 +121,11 @@ class Convert:
 
     @staticmethod
     def __MergeWords(_words : list) -> str:
-        pass
+        mergeWord = str()
+        for word in _words:
+            mergeWord += word
+
+        return mergeWord
 
     @staticmethod
     def __HaveXWords( _x : int, _string : str) -> bool:
