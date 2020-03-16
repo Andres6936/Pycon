@@ -114,6 +114,7 @@ class Convert:
 
     def __FormatTagsInTranslates(self):
         for translate in self.__translates:
+            translate.key = translate.key.replace('msgid ', '')
             keyTag = self.__ExtractNameOfTag(translate.key)
             translate.key = keyTag
 
