@@ -61,6 +61,14 @@ class Convert:
                     else:
                         self.__buffer[index] = line
                         break
+            elif line.find('msgstr ', 0, len('msgstr ')) != -1:
+                while index + 1 < len(self.__buffer):
+                    if self.__buffer[index + 1].find('msgid ', 0, len('msgid ')) == -1:
+                        line += self.__buffer[index + 1]
+                        self.__buffer.pop(index + 1)
+                    else:
+                        self.__buffer[index] = line
+                        break
             index += 1
 
     def __CreateListOfTagsAndTranslates(self):
