@@ -78,6 +78,11 @@ class Convert (WriterXML):
             self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], ';')
             self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '?')
             self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '_')
+            self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '|')
+            self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '(')
+            self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], ')')
+            self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], ':')
+            self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '%')
             self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '--')
             self.__buffer[i] = self.__DeletedCharactersInString(self.__buffer[i], '\\n')
 
