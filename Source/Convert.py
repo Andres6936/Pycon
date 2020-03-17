@@ -35,6 +35,7 @@ class Convert (WriterXML):
         self.__ExtractTranslators()
         self.__CreateListOfTranslates()
         self.__FormatTagsInTranslates()
+        self.__FormatValueInTranslates()
         self.SetFilename(self.__filename)
         self.Write(self.__translates)
 
@@ -140,6 +141,10 @@ class Convert (WriterXML):
             translate.key = translate.key.replace('msgid ', '')
             keyTag = self.__ExtractNameOfTag(translate.key)
             translate.key = keyTag
+
+    def __FormatValueInTranslates(self):
+        for translate in self.__translates:
+            translate.value = translate.value.replace('msgstr ', '')
 
     def __ExtractNameOfTag(self, _string : str) -> str:
         listOfWords = list()
