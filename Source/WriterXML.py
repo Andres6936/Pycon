@@ -15,4 +15,4 @@ class WriterXML:
             element.text = translate.value
 
         self.__document = ET.ElementTree(self.__elementRoot)
-        self.__document.write('Out.xml')
+        self.__document.write('Out.xml', 'UTF-8', True)
