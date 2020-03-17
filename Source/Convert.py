@@ -1,12 +1,11 @@
 from pathlib import Path
 
-class Dictionary:
-    def __init__(self, _key : str, _value : str):
-        self.key = _key
-        self.value = _value
+from Source.Dictionary import Dictionary
+from Source.WriterXML import WriterXML
 
-class Convert:
+class Convert (WriterXML):
     def __init__(self):
+        super().__init__()
         self.__tags = list()
         self.__buffer = list()
         self.__translates = list()
@@ -31,6 +30,7 @@ class Convert:
         self.__ExtractTranslators()
         self.__CreateListOfTranslates()
         self.__FormatTagsInTranslates()
+        self.Write(self.__translates)
 
     def __ExtractCommentOfHead(self):
         allCommentHeadHasBeenExtracted = False
