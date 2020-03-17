@@ -31,6 +31,7 @@ class Convert (WriterXML):
         self.__DeletedEmptyLinesInBuffer()
         self.__MergeTagsSeparatedForNewLine()
         self.__ExtractMetadataOfHead()
+        self.__ExtractPossibleFilenameOfMetadata()
         self.__ExtractLicense()
         self.__ExtractTranslators()
         self.__CreateListOfTranslates()
@@ -75,6 +76,19 @@ class Convert (WriterXML):
 
     def __GenerateRandomFilename(self):
         self.__filename = 'Output{}.xml'.format(random.randint(1, 6936))
+
+    def __ExtractPossibleFilenameOfMetadata(self):
+        # If the filename have an name distinct of Output.xml, mean
+        # that was possible determine an valid filename, otherwise
+        # need determine the filename in this function
+        if self.__filename.find('Output', 0, len('Output')) != -1:
+            pattern = re.compile(r'Language-Team\s(\S+)')
+            result = pattern.search(self.__metadataHead)
+            if result:
+                filename = result.string[result.start():result.end()]
+                filename = filename.split(' ')
+                self.__filename = filename[-1] + '.xml'
+                return
 
     def __ExtractMetadataOfHead(self):
         # Deleted the first msgid without use
