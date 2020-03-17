@@ -25,7 +25,7 @@ class Pycon:
                 directory = Path(command[-1])
                 self.__GetListOfFilesPO(directory)
             else:
-                print('The command: {0} not has been processed'.format(command))
+                sys.stderr.write('The command: {0} not has been processed\n'.format(command))
 
     def __GetListOfFilesPO(self, fromDirectory : Path) -> None:
         if fromDirectory.is_dir():
@@ -33,7 +33,7 @@ class Pycon:
             for file in files:
                 self.__files.append(file)
         else:
-            print('The path {0} not is directory'.format(fromDirectory))
+            sys.stderr.write('The path {0} not is directory\n'.format(fromDirectory))
 
     def __ProcessSingleFile(self):
         Convert().ConvertToXML(self.__filename)
@@ -44,6 +44,6 @@ class Pycon:
     @staticmethod
     def __VerifyThatFilenameIsPathValid(filename : Path):
         if not filename.exists():
-            print('The file {0} not exist'.format(filename))
+            sys.stderr.write('The file {0} not exist\n'.format(filename))
 
 app = Pycon()
