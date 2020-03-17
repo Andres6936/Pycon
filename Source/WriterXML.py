@@ -1,7 +1,5 @@
 import xml.etree.ElementTree as ET
 
-from Source.Dictionary import Dictionary
-
 class WriterXML:
     def __init__(self):
         self.__filename = str()
