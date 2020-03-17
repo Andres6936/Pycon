@@ -160,28 +160,28 @@ class Convert (WriterXML):
 
     @staticmethod
     def __ExtractXWordMoreGreater(_x : int, _string : str) -> list:
-        listOfWordsGreat = list()
         listOfWords = _string.split(' ')
 
-        for i in range(_x):
-            # Set that the word more great is the first of list
-            lengthOfWordMoreGreat = len(listOfWords[0])
-            indexWordMoreGreater = 0
+        while len(listOfWords) > _x:
+            index = len(listOfWords) - 1
+            # Set that the word more shorter is the last of list
+            lengthWordMoreShorter = len(listOfWords[index])
+            indexWordMoreShorter = index
+            # Decrease in 1 for avoid pass for the word above looking
+            index -= 1
+            while index > 0:
+                lengthOfThisWord = len(listOfWords[index])
+                if lengthOfThisWord < lengthWordMoreShorter:
+                    lengthWordMoreShorter = lengthOfThisWord
+                    indexWordMoreShorter = index
+                    index -= 1
+                else:
+                    index -= 1
 
-            index = 1
-            while index < len(listOfWords):
-                if len(listOfWords[index]) > lengthOfWordMoreGreat:
-                    lengthOfWordMoreGreat = len(listOfWords[index])
-                    indexWordMoreGreater = index
-                    index += 1
-                else: index += 1
+            # Deleted the word more shorter
+            listOfWords.pop(indexWordMoreShorter)
 
-            # Added the word to the list of words greater
-            listOfWordsGreat.append(listOfWords[indexWordMoreGreater])
-            # Deleted the word of the list for avoid counter again
-            listOfWords.pop(indexWordMoreGreater)
-
-        return listOfWordsGreat
+        return listOfWords
 
 
     @staticmethod
