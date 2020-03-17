@@ -1,3 +1,5 @@
+import re
+
 from pathlib import Path
 
 from Source.Dictionary import Dictionary
@@ -10,6 +12,7 @@ class Convert (WriterXML):
         self.__buffer = list()
         self.__translates = list()
         self.__license = str()
+        self.__filename = str()
         self.__commentHead = str()
         self.__translators = str()
         self.__metadataHead = str()
@@ -20,6 +23,7 @@ class Convert (WriterXML):
             self.__buffer = self.__buffer.splitlines()
             file.close()
         self.__ExtractCommentOfHead()
+        self.__ExtractPossibleFilename()
         self.__DeletedEmptyLinesInBuffer()
         self.__DeletedCommentsInBuffer()
         self.__DeletedCharactersUnusedInBuffer()
@@ -39,6 +43,17 @@ class Convert (WriterXML):
                 self.__commentHead += self.__buffer[0]
                 self.__buffer.pop(0)
             else: allCommentHeadHasBeenExtracted = True
+
+    def __ExtractPossibleFilename(self) -> None:
+        pattern = re.compile(r'\w+\s([Tt])ranslation\sfor\s')
+        result = pattern.search(self.__commentHead)
+        if result:
+            section = result.string[result.start():result.end()]
+            pattern = re.compile(r'\w+')
+            result = pattern.search(section)
+            if result:
+                self.__filename = result.string[result.start():result.end()] + '.xml'
+                return
 
     def __ExtractMetadataOfHead(self):
         # Deleted the first msgid without use
