@@ -46,4 +46,5 @@ class Pycon:
         if not filename.exists():
             sys.stderr.write('The file {0} not exist\n'.format(filename))
 
-app = Pycon()
+if __name__ == '__main__':
+    app = Pycon()
