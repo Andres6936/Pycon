@@ -48,6 +48,11 @@ class Convert (WriterXML):
             else: allCommentHeadHasBeenExtracted = True
 
     def __ExtractPossibleFilename(self) -> None:
+        # For avoid unnecessary calculus
+        if len(self.__commentHead) == 0:
+            self.__GenerateRandomFilename()
+            return
+
         pattern = re.compile(r'\w+\s([Tt])ranslation\sfor\s')
         result = pattern.search(self.__commentHead)
         if result:
@@ -57,6 +62,18 @@ class Convert (WriterXML):
             if result:
                 self.__filename = result.string[result.start():result.end()] + '.xml'
                 return
+        else:
+            pattern = re.compile(r'([Tt])ranslation\sof\s(\S+)\sto\s\w+')
+            result = pattern.search(self.__commentHead)
+            if result:
+                section = result.string[result.start():result.end()]
+                section = section.split(' ')
+                self.__filename = section[-1] + '.xml'
+                return
+        # Can't determine an possible filename, generate an filename random
+        self.__GenerateRandomFilename()
+
+    def __GenerateRandomFilename(self):
         self.__filename = 'Output{}.xml'.format(random.randint(1, 6936))
 
     def __ExtractMetadataOfHead(self):
