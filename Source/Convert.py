@@ -1,4 +1,5 @@
 import re
+import random
 
 from pathlib import Path
 
@@ -55,7 +56,7 @@ class Convert (WriterXML):
             if result:
                 self.__filename = result.string[result.start():result.end()] + '.xml'
                 return
-        self.__filename = 'Output.xml'
+        self.__filename = 'Output{}.xml'.format(random.randint(1, 6936))
 
     def __ExtractMetadataOfHead(self):
         # Deleted the first msgid without use

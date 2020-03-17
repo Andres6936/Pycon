@@ -39,7 +39,8 @@ class Pycon:
         Convert().ConvertToXML(self.__filename)
 
     def __ProcessMultiplesFiles(self):
-        pass
+        for file in self.__files:
+            Convert().ConvertToXML(file)
 
     @staticmethod
     def __VerifyThatFilenameIsPathValid(filename : Path):
