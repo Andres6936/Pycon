@@ -14,4 +14,7 @@ class WriterXML:
 
         self.__document = ET.ElementTree(self.__elementRoot)
         # Filename of Output, Encoding and Xml Declaration
-        self.__document.write('Out.xml', 'UTF-8', True)
+        self.__document.write(self.__filename, 'UTF-8', True)
+
+    def SetFilename(self, _filename : str) -> None:
+        self.__filename = _filename
