@@ -61,7 +61,7 @@ class Convert (WriterXML):
             pattern = re.compile(r'\w+')
             result = pattern.search(section)
             if result:
-                self.__filename = result.string[result.start():result.end()] + '.xml'
+                self.__filename = result.string[result.start():result.end()].capitalize() + '.xml'
                 return
         else:
             pattern = re.compile(r'([Tt])ranslation\sof\s(\S+)\sto\s\w+')
@@ -69,7 +69,7 @@ class Convert (WriterXML):
             if result:
                 section = result.string[result.start():result.end()]
                 section = section.split(' ')
-                self.__filename = section[-1] + '.xml'
+                self.__filename = section[-1].capitalize() + '.xml'
                 return
         # Can't determine an possible filename, generate an filename random
         self.__GenerateRandomFilename()
@@ -87,7 +87,7 @@ class Convert (WriterXML):
             if result:
                 filename = result.string[result.start():result.end()]
                 filename = filename.split(' ')
-                self.__filename = filename[-1] + '.xml'
+                self.__filename = filename[-1].capitalize() + '.xml'
                 return
 
     def __ExtractMetadataOfHead(self):
