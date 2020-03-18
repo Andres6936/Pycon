@@ -11,7 +11,9 @@ class WriterXML (WriterDirectory):
         self.__elementRoot = None
 
     def Write(self, translates : list):
-        self.CreateDirectory(Path('./Output/'))
+        directoryOutput = Path('./Output/')
+        if not self.ExistDirectory(directoryOutput):
+            self.CreateDirectory(directoryOutput)
         self.__elementRoot = ET.Element('LanguageInject')
         for translate in translates:
             element = ET.SubElement(self.__elementRoot, translate.key)
