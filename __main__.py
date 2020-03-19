@@ -1,4 +1,5 @@
 import sys
+import logging
 
 from pathlib import Path
 from Source.Convert import Convert
@@ -7,6 +8,7 @@ class Pycon:
     def __init__(self):
         self.__filename = None
         self.__files = []
+        self.__logger = logging.getLogger('Pycon')
         self.__ProcessCommandLineArguments()
         self.__ProcessSingleFile()
         self.__ProcessMultiplesFiles()
@@ -25,7 +27,8 @@ class Pycon:
                 directory = Path(command[-1])
                 self.__GetListOfFilesPO(directory)
             else:
-                sys.stderr.write('The command: {0} not has been processed\n'.format(command))
+                message = 'The command: {0} not has been processed'.format(command)
+                self.__logger.error(message)
 
     def __GetListOfFilesPO(self, fromDirectory : Path) -> None:
         if fromDirectory.is_dir():
@@ -33,7 +36,8 @@ class Pycon:
             for file in files:
                 self.__files.append(file)
         else:
-            sys.stderr.write('The path {0} not is directory\n'.format(fromDirectory))
+            message = 'The path {0} not is directory'.format(fromDirectory)
+            self.__logger.error(message)
 
     def __ProcessSingleFile(self):
         Convert().ConvertToXML(self.__filename)
@@ -45,7 +49,8 @@ class Pycon:
     @staticmethod
     def __VerifyThatFilenameIsPathValid(filename : Path):
         if not filename.exists():
-            sys.stderr.write('The file {0} not exist\n'.format(filename))
+            message = 'The file {0} not exist\n'.format(filename)
+            logging.getLogger('Pycon').error(message)
 
 if __name__ == '__main__':
     app = Pycon()
